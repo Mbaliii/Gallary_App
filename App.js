@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import Button from './src/components/Button';
 
 
 export default function App() {
@@ -17,10 +18,17 @@ export default function App() {
       const cameraStatus = await Camera.requestCameraPermissionsAsync()
       setHasCameraPermission(cameraStatus.status === 'granted')
     })
-  })
+  }, [])
 
   return (
     <View style={styles.container}>
+      <Camera style={styles.camera} type={type}
+        flashMode={flash} ref={cameraRef}>
+        <Text>Hello</Text>
+      </Camera>
+      <View>
+        <Button title={'Take a picture'} icon="camera"/>
+      </View>
     </View>
   );
 }
@@ -28,8 +36,11 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#dcdcdc',
-    alignItems: 'center',
+    backgroundColor: '#fff',
     justifyContent: 'center',
   },
+  camera: {
+    flex: 1,
+    borderRadius: 20
+  }
 });
